@@ -10,6 +10,9 @@
         private string practiceLocation;
         private decimal funding;
         private decimal numPlayers;
+        private bool regionalW;
+        private bool stateW;
+        private bool nationalW;
 
         public SportTeam()
         {
@@ -17,16 +20,19 @@
         }
 
         public SportTeam(string name, string primaryContact, string coach,
-            string manager, string practiceTimes, string practiceLocation, decimal funding, decimal numPlayers)
+            string manager, string practiceTimes, string practiceLocation, decimal funding, decimal numPlayers, bool regionalW, bool stateW, bool nationalW)
         {
-            this.name = name;
-            this.primaryContact = primaryContact;
-            this.coach = coach;
-            this.manager = manager;
-            this.practiceLocation = practiceLocation;
-            this.practiceTimes = practiceTimes;
-            this.funding = funding;
-            this.numPlayers = numPlayers;
+            Name = name;
+            PrimaryContact = primaryContact;
+            Coach = coach;
+            Manager = manager;
+            PracticeLocation = practiceLocation;
+            PracticeTimes = practiceTimes;
+            Funding = funding;
+            NumPlayers = numPlayers;
+            RegionalW = regionalW;
+            StateW = stateW;
+            NationalW = nationalW;
         }
 
         public string Name
@@ -75,6 +81,24 @@
         {
             get { return numPlayers; }
             set { numPlayers = value; }
+        }
+
+        public bool RegionalW
+        {
+            get { return regionalW; }
+            set { regionalW = value; }
+        }
+
+        public bool StateW
+        {
+            get { return stateW; }
+            set { stateW = value; }
+        }
+
+        public bool NationalW
+        {
+            get { return nationalW; }
+            set { nationalW = value; }
         }
 
         public override string ToString()

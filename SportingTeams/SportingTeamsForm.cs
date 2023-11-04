@@ -1,8 +1,8 @@
 namespace SportingTeams
 {
-    public partial class Form1 : Form
+    public partial class SportingTeamsForm : Form
     {
-        public Form1()
+        public SportingTeamsForm()
         {
             InitializeComponent();
         }
