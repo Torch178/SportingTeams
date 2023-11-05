@@ -1,9 +1,27 @@
-﻿using Interfaces;
+﻿/*
+ * Name: Christian Luke
+ * Date: 11/5/2023
+ * Description:
+ *      This program showcases my knowledge and skills when working with object-oriented programming. I create a base sports team class to define some generic data members/ properties and functions which
+ *      will be used by the derived classes, which in this case, will be individual sports teams on campus. For this program I have defined paramaters for a basketball child class and a football child class.
+ *      Now of course, the team composition and budgetary needs of a basketball team is going to be very different from that of a football team. So each class will have different individual data members and properties
+ *      which define the component positions of each team as well as an interface for setting the budget/ funding for each. The basketball team will only have starters and backup players, while a football team will
+ *      have more players/ positions split between an  offensive team, a defensive team, a special team, and a practice squad / backup team. As such, each team will need to override a virtual function for displaying 
+ *      the information and roster for each team as well as displaying unfilled positions which each team still needs. This functionality will all be shown and tested within the context of a Windows form application.
+ *      Users will be prompted to select a team. There are two separate buttons wired up to event triggers for displaying the team information, as well as fetching open positions the team still needs. A simple popup
+ *      message box will appear prompting the user to select a team if they attempt to trigger these buttons without selecting one of the two teams beforehand.
+ * Loom Video Walkthrough Link:
+ *      https://www.loom.com/share/3cc8cee312104b409920c3bc3549e9dc
+ */
+
+using Interfaces;
+using System.Security.Cryptography;
 
 namespace SportTeam
 {
     public class Football : SportTeam, iFunding
     {
+        //declare data members for class
         private string[] offense = new string[11];
         private string[] defense = new string[11];
         private string[] special = new string[4];
@@ -19,6 +37,7 @@ namespace SportTeam
         public string[] specialPos = 
         { "Kicker", "Punter", "Holder", "Snapper"};
 
+        //define Properties for class
         public string[] Offense
         {
             get { return offense; }
@@ -61,6 +80,7 @@ namespace SportTeam
             set { practiceTeam = value; }
         }
 
+        //default constructor
         public Football()
         {
             NumOffense = 0;
@@ -80,10 +100,12 @@ namespace SportTeam
             PracticeTeam = new List<string>();
         }
 
+        //Overloaded Constructor
         public Football(string name, string primaryContact, string coach,
             string manager, string practiceTimes, string practiceLocation, decimal funding, decimal numPlayers, bool regionalW, bool stateW, bool nationalW,
             int numDefense, int numOffense, int numSpecial, string[]offense, string[]defense, string[]special, List<string>practice)
-         :base(name, primaryContact, coach,
+         //feed input paramaters into base class constructor
+         : base(name, primaryContact, coach,
             manager, practiceTimes, practiceLocation, funding, numPlayers, regionalW, stateW, nationalW)
         {
             NumDefense= numDefense;
@@ -97,9 +119,10 @@ namespace SportTeam
 
         public override string ToString()
         {
+            //call base class ToString override
             string output = base.ToString();
             output += "\n\n\tOffense:";
-            for(int i =0; i < Offense.Length; i++)
+            for (int i = 0; i < Offense.Length; i++)
             {
                 output += "\n\t\t" + GetPosition(i, 'o') + " - " + Offense[i];
             }
@@ -119,13 +142,21 @@ namespace SportTeam
             {
                 output += "\n\t\t" + s;
             }
-
+            output += "\n\nBudget: " + String.Format("{0:C}", Funding);
+            output += "\nBudget Breakdown: ";
+            output += "\n\tBase: $500.00\n\t";
+            if (NumPlayers >= 25) { output += "Full Team: $100.00\n\t"; }
+            if (RegionalW) { output += "Regional Champs: $150.00\n\t"; }
+            if (StateW) { output += "State Champs: $250.00\n\t"; }
+            if(NationalW) { output += "National Champs: $500.00\n"; }
             return output;
         }
 
+        //returns all available/ unfilled positions on the team, which are open for tryouts
         public override string AvailablePositions()
         {
             string output = String.Empty;
+            //retreive unfilled offensive positions
             if(NumOffense < 11)
             {
                 for(int i = 0;i < Offense.Length;i++)
@@ -136,7 +167,8 @@ namespace SportTeam
                     }
                 }
             }
-            if(NumDefense < 11)
+            //retreive unfilled defensive positions
+            if (NumDefense < 11)
             {
                 for (int i = 0; i < Defense.Length; i++)
                 {
@@ -146,7 +178,8 @@ namespace SportTeam
                     }
                 }
             }
-            if(NumSpecial < 4)
+            //retreive unfilled special team positions
+            if (NumSpecial < 4)
             {
                 for (int i = 0; i < Special.Length; i++)
                 {
@@ -162,12 +195,14 @@ namespace SportTeam
             }
             else
             {
-                if (output[-2] == ',') { output = output.Remove(output.Length - 1, 1); }
+                //Cut off dangling space and comma from last entry
+                if (output.EndsWith( ", ")) { output = output.Substring(0, output.Length-2); }
                 return "Positions needed, open for tryouts:\n\t" +
                     output + "\n";
             }
         }
 
+        //Converts array index in team array to the corresponding position it represents
         public string GetPosition(int i, char c)
         {
             switch (c)
@@ -254,7 +289,7 @@ namespace SportTeam
         public void SetFunding()
         {
             Funding = 500m;
-            if(NumPlayers > 25)
+            if(NumPlayers >= 25)
             {
                 Funding += 100m;
             }
